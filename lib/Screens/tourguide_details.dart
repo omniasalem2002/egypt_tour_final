@@ -86,10 +86,10 @@ class _TourGuideDetailState extends State<TourGuideDetail> {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () async {
-                SharedPreferences prefs = await SharedPreferences.getInstance();
-                bool formSubmitted = prefs.getBool('formSubmitted') ?? false;
+               // SharedPreferences prefs = await SharedPreferences.getInstance();
+               // bool formSubmitted = prefs.getBool('formSubmitted') ?? false;
 
-                if (formSubmitted) {
+               /* if (formSubmitted) {
                   // Navigate to ContactTourWithPhone if form has been submitted
                   Navigator.push(
                     context,
@@ -101,7 +101,7 @@ class _TourGuideDetailState extends State<TourGuideDetail> {
                       ),
                     ),
                   );
-                } else {
+                } else {*/
                   // Navigate to FormForRegisterTourist if form has not been submitted
                   Navigator.push(
                     context,
@@ -113,7 +113,7 @@ class _TourGuideDetailState extends State<TourGuideDetail> {
                     ),
                   );
                 }
-              },
+              ,
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color.fromARGB(255, 1, 61, 58),
               ),

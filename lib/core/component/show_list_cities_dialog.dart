@@ -55,8 +55,8 @@ showListCityDialog(BuildContext ctxt, Size size) {
 }
 final List<String> _cities = [
   'Cairo',
-  'giza'
   'Luxor',
+  'Giza',
   'Aswan',
   'Alexandria',
   'Sharm El Sheikh',

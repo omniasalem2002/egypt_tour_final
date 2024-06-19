@@ -5,14 +5,6 @@ class FireStoreServicesForTourist {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final String _collectionName = 'tourist'; // Name of the Firestore collection
 
-   Future<bool> touristExists(String phoneNumber) async {
-    final querySnapshot = await _firestore
-        .collection(_collectionName)
-        .where('phoneNumber', isEqualTo: phoneNumber)
-        .get();
-
-    return querySnapshot.docs.isNotEmpty;
-  }
   Future<void> addTourist(TourisModel tourist) async {
     try {
       await _firestore.collection(_collectionName).add(tourist.toJson());

@@ -18,7 +18,7 @@ class Profile extends StatelessWidget {
       body: BlocListener<AddTouristCubit, TouristState>(
         listener: (context, state) {
           if (state is TouristSuccess) {
-            context.read<AddTouristCubit>().loadTouristFromSharedPreferences();
+           // context.read<AddTouristCubit>().loadTouristFromSharedPreferences();
           }
         },
         child: BlocBuilder<AddTouristCubit, TouristState>(

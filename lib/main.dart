@@ -20,15 +20,13 @@ void main() async {
   }
 
   // Initialize SharedPreferences
-  SharedPreferences _prefs = await SharedPreferences.getInstance();
 
-  runApp(MyApp(preferences: _prefs));
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  final SharedPreferences preferences;
 
-  const MyApp({Key? key, required this.preferences}) : super(key: key);
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +39,7 @@ class MyApp extends StatelessWidget {
           create: (context) => TourGuideCubit(fireStoreService),
         ),
         BlocProvider(
-          create: (context) => AddTouristCubit(fireStoreServicesForTourist, preferences),
+          create: (context) => AddTouristCubit(fireStoreServicesForTourist),
         ),
       ],
       child: MaterialApp(

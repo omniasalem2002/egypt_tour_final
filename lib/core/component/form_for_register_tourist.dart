@@ -31,7 +31,7 @@ class _FormForRegisterTouristState extends State<FormForRegisterTourist> {
   @override
   void initState() {
     super.initState();
-    checkFormSubmissionStatus();
+  //  checkFormSubmissionStatus();
   }
 
   Future<void> checkFormSubmissionStatus() async {
@@ -75,7 +75,8 @@ class _FormForRegisterTouristState extends State<FormForRegisterTourist> {
             } else if (state is TouristSuccess) {
               // Hide loading indicator and show success message
               Navigator.pop(context); // To dismiss the loading dialog
-              saveFormSubmissionStatus(); // Save form submission status
+             // saveFormSubmissionStatus();
+              // Save form submission status
               Navigator.pushReplacement(
                 // PushReplacement to prevent going back to this page
                 context,
@@ -126,9 +127,7 @@ class _FormForRegisterTouristState extends State<FormForRegisterTourist> {
                       children: [
                         const SizedBox(height: 20),
                         CustomTextFormField(
-                          controller: context
-                              .read<AddTouristCubit>()
-                              .touristNameController,
+                          controller: context.read<AddTouristCubit>().touristNameController,
                           hintText: "Enter Your Name",
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -142,17 +141,14 @@ class _FormForRegisterTouristState extends State<FormForRegisterTourist> {
                         ),
                         const SizedBox(height: 20),
                         CustomTextFormField(
-                          controller: context
-                              .read<AddTouristCubit>()
-                              .touristEmailController,
+                          controller: context.read<AddTouristCubit>().touristEmailController,
                           hintText: "Enter Your Email",
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please enter your email';
                             }
                             // Regex pattern to validate email addresses
-                            if (!RegExp(r'^[^@]+@[^@]+\.[^@]+')
-                                .hasMatch(value)) {
+                            if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
                               return 'Please enter a valid email address';
                             }
                             return null;
@@ -160,22 +156,19 @@ class _FormForRegisterTouristState extends State<FormForRegisterTourist> {
                         ),
                         const SizedBox(height: 20),
                         IntlPhoneField(
-                          controller: context
-                              .read<AddTouristCubit>()
-                              .whatsAppNumberController,
+                          controller: context.read<AddTouristCubit>().whatsAppNumberController,
                           decoration: InputDecoration(
                             hintText: "WhatsApp Number",
                             filled: true,
                             hintStyle: Styles.font14BlueSemiBold(context),
                             fillColor: ColorsApp.moreLightGrey,
-                            border: UnderlineInputBorder(
+                            border: const UnderlineInputBorder(
                               borderSide: BorderSide(),
                             ),
                           ),
                           initialCountryCode: 'EG', // Default to Egypt
                           onChanged: (phone) {
-                            print(phone
-                                .completeNumber); // Use this to get the full phone number
+                            print(phone.completeNumber); // Use this to get the full phone number
                           },
                           onCountryChanged: (country) {
                             print('Country changed to: ' + country.name);
@@ -187,22 +180,18 @@ class _FormForRegisterTouristState extends State<FormForRegisterTourist> {
                             return null;
                           },
                         ),
+                        const SizedBox(height: 20),
                         CustomTextFormField(
-                          controller: context
-                              .read<AddTouristCubit>()
-                              .touristPhoneNumberController,
+                          controller: context.read<AddTouristCubit>().touristPhoneNumberController,
                           hintText: "Local Phone Number Eg:- 01112345678",
                           validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter your phone number';
+                            if (value != null && value.isNotEmpty) {
+                              // Check if the phone number starts with '01' and has exactly 11 digits in total
+                              if (!RegExp(r'^01[0-9]{9}$').hasMatch(value)) {
+                                return 'Please enter a valid Egyptian phone number starting with 01';
+                              }
                             }
-
-                            // Check if the phone number starts with '01' and has exactly 11 digits in total
-                            if (!RegExp(r'^01[0-9]{9}$').hasMatch(value)) {
-                              return 'Please enter a valid Egyptian phone number starting with 01';
-                            }
-
-                            return null;
+                            return null; // If the field is empty, it passes validation
                           },
                         ),
                         const SizedBox(height: 20),
@@ -213,34 +202,8 @@ class _FormForRegisterTouristState extends State<FormForRegisterTourist> {
                             textStyle: Styles.font14LightGreyRegular(context),
                             backgroundColor: ColorsApp.darkPrimary,
                             onPressed: () async {
-                              // Save tourist data to SharedPreferences
-                              SharedPreferences prefs =
-                                  await SharedPreferences.getInstance();
-                              await prefs.setString(
-                                  'name',
-                                  context
-                                      .read<AddTouristCubit>()
-                                      .touristNameController
-                                      .text);
-                              await prefs.setString(
-                                  'email',
-                                  context
-                                      .read<AddTouristCubit>()
-                                      .touristEmailController
-                                      .text);
-                              await prefs.setString(
-                                  'phoneNumber',
-                                  context
-                                      .read<AddTouristCubit>()
-                                      .touristPhoneNumberController
-                                      .text);
-
-                              // Navigate to Profile page after saving data
-                              if (context
-                                  .read<AddTouristCubit>()
-                                  .formKey
-                                  .currentState!
-                                  .validate()) {
+                              if (context.read<AddTouristCubit>().formKey.currentState!.validate()) {
+                                // If the form is valid, proceed with the action
                                 context.read<AddTouristCubit>().addTourist();
                               }
                             },
@@ -249,6 +212,7 @@ class _FormForRegisterTouristState extends State<FormForRegisterTourist> {
                       ],
                     ),
                   ),
+
                 ),
               ],
             ),
